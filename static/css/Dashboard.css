@@ -1,0 +1,147 @@
+
+  .navbar {
+    background-color: #333;
+    color: #fff;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 1rem;
+  }
+
+  .sidebar {
+    background-color: #333;
+    color: #fff;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 70px;
+    padding: 2rem;
+  }
+
+  .sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .main-content {
+    margin-top: 50px;
+    padding: 2rem;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      height: auto;
+      top: 0;
+      left: 0;
+      margin-top: 50px;
+    }
+  }
+
+ .student-container {
+        width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .student-name {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .regNo {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 2rem;
+      }
+
+      .progress-bar {
+        height: 20px;
+        width: 100%;
+        background-color: #ddd;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 50%;
+        background-color: #4CAF50;
+        border-radius: 10px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+     .chart-container {
+  width: 40%;
+  float: left;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.graph-container {
+  width: 50%;
+  float: right;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.axis {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #333;
+}
+
+.axis::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 2px;
+  height: 2px;
+  background-color: #333;
+  transform: rotate(45deg);
+}
+
+.bar {
+  position: absolute;
+  bottom: 0;
+  background-color: #4CAF50;
+  width: 20px;
+  height: 80px;
+  left: 25px;
+  transform: translateX(-50%);
+}
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/Dashboard.css') }}">
+
+</head>
+  <body>
+    <nav class="navbar">
+      <a href="#">Name of dean of students</a>
+        <form action="{{ url_for('search') }}" method="post">
+             <input type="text" placeholder="Search" name="query">
+                    <button type="submit">Go</button>
+        </form>
+
+      <a href="#">Account</a>
+      <a href="#">Contacts</a>
+    </nav>
+    <aside class="sidebar">
+      <a href="#">Students</a>
+      <a href="#">Staff</a>
+      <a href="#">Finance</a>
+      <a href="#">Settings</a>
+    </aside>
+   <main class="main-content">
+  <div class="student-container">
+    <div class="student-name">{{ student_name|default("John Doe") }}</div>
+    <div class="regNo">Reg No: 123456</div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+  </body>
+</html>
