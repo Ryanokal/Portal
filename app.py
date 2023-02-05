@@ -1,5 +1,8 @@
 import sqlite3
+import numpy as np
+import pandas as pd
 from flask import Flask, render_template, request, redirect
+from Prediction import predict
 
 app = Flask(__name__)
 
