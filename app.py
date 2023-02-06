@@ -44,6 +44,11 @@ def search():
     c.close()
     conn.close()
     if result:
+        #Predict the result of the student here - either drop out or graduating - use database
+        result = predict(np.array([]))
+        
+        #Using Progressive Bar
+
         return redirect("/dashboard?student_name=" + result[0])
     else:
         return redirect("/dashboard?student_name=No student found")
