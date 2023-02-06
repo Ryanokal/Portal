@@ -1,5 +1,5 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np  # linear algebra
+import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
@@ -7,12 +7,13 @@ import joblib
 # Input data files are available in the read-only "../input/" directory
 
 import warnings
+
 # ignore warnings
 warnings.filterwarnings("ignore")
 
 # read csv (comma separated value) into data
 data = pd.read_csv(r'E:\Python Projects\University Student Prediction/dataset.csv')
-print(plt.style.available) # look at available plot styles
+print(plt.style.available)  # look at available plot styles
 plt.style.use('ggplot')
 
 data.head()
@@ -21,45 +22,46 @@ data.info()
 
 data.describe()
 
-data.drop(data.index[(data["Target"] == "Other")], axis = 0, inplace = True)
+data.drop(data.index[(data["Target"] == "Other")], axis=0, inplace=True)
 
-color_list = ["red" if i=="Dropout" else "green" for i in data.loc[:,"Target"]]
+color_list = ["red" if i == "Dropout" else "green" for i in data.loc[:, "Target"]]
 pd.plotting.scatter_matrix(data.loc[:, data.columns != "class"],
-                                       c=color_list,
-                                       figsize= [15,15],
-                                       diagonal="hist",
-                                       alpha=0.5,
-                                       s = 200,
-                                       marker = "*",
-                                       edgecolor= "black")
+                           c=color_list,
+                           figsize=[15, 15],
+                           diagonal="hist",
+                           alpha=0.5,
+                           s=200,
+                           marker="*",
+                           edgecolor="black")
 plt.show()
 
 sns.countplot(x="Target", data=data)
-data.loc[:,'Target'].value_counts()
+data.loc[:, 'Target'].value_counts()
 
-data.drop(data.index[(data["Target"] == "Enrolled")],axis=0,inplace=True)
+data.drop(data.index[(data["Target"] == "Enrolled")], axis=0, inplace=True)
 
 sns.countplot(x="Target", data=data)
-data.loc[:,'Target'].value_counts()
+data.loc[:, 'Target'].value_counts()
 
 # KNN
 from sklearn.neighbors import KNeighborsClassifier
-knn = KNeighborsClassifier(n_neighbors = 3)
-x,y = data.loc[:,data.columns != 'Target'], data.loc[:,'Target']
-knn.fit(x,y)
+
+knn = KNeighborsClassifier(n_neighbors=3)
+x, y = data.loc[:, data.columns != 'Target'], data.loc[:, 'Target']
+knn.fit(x, y)
 prediction = knn.predict(x)
 print('Prediction: {}'.format(prediction))
 
 # train test split
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.3,random_state = 1)
-knn = KNeighborsClassifier(n_neighbors = 3)
-x,y = data.loc[:,data.columns != 'Target'], data.loc[:,'Target']
-knn.fit(x_train,y_train)
-prediction = knn.predict(x_test)
 
-#print('Prediction: {}'.format(prediction))
-print('With KNN (K=3) accuracy is: ',knn.score(x_test,y_test)) # accuracy
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1)
+knn = KNeighborsClassifier(n_neighbors=3)
+x, y = data.loc[:, data.columns != 'Target'], data.loc[:, 'Target']
+knn.fit(x_train, y_train)
+prediction = knn.predict(x_test)
+# print('Prediction: {}'.format(prediction))
+print('With KNN (K=3) accuracy is: ', knn.score(x_test, y_test))  # ACCURACY = 0.83
 
 # Model complexity
 neig = np.arange(1, 25)
@@ -71,16 +73,16 @@ for i, k in enumerate(neig):
     # k from 1 to 25(exclude)
     knn = KNeighborsClassifier(n_neighbors=k)
     # Fit with knn
-    knn.fit(x_train,y_train)
-    #train accuracy
+    knn.fit(x_train, y_train)
+    # train accuracy
     train_accuracy.append(knn.score(x_train, y_train))
     # test accuracy
     test_accuracy.append(knn.score(x_test, y_test))
 
 # Plot
-plt.figure(figsize=[13,8])
-plt.plot(neig, test_accuracy, label = 'Testing Accuracy')
-plt.plot(neig, train_accuracy, label = 'Training Accuracy')
+plt.figure(figsize=[13, 8])
+plt.plot(neig, test_accuracy, label='Testing Accuracy')
+plt.plot(neig, train_accuracy, label='Training Accuracy')
 plt.legend()
 plt.title('-value VS Accuracy')
 plt.xlabel('Number of Neighbors')
@@ -88,9 +90,9 @@ plt.ylabel('Accuracy')
 plt.xticks(neig)
 plt.savefig('graph.png')
 plt.show()
-print("Best accuracy is {} with K = {}".format(np.max(test_accuracy),1+test_accuracy.index(np.max(test_accuracy))))
+print("Best accuracy is {} with K = {}".format(np.max(test_accuracy), 1 + test_accuracy.index(np.max(test_accuracy))))
 
-#Logistic regression - accuracy
+# Logistic regression - accuracy = 91.83%
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
@@ -100,7 +102,7 @@ lr_clf.fit(x_train, y_train)
 pred = lr_clf.predict(x_test)
 print(f"Accuracy Score: {accuracy_score(y_test, pred) * 100:.2f}%")
 
-#Support Vector Machine (SVM)- accuracy
+# Support Vector Machine (SVM)- accuracy  = 60.79%
 from sklearn.svm import SVC
 
 svm_clf = SVC(kernel='rbf', gamma=0.1, C=1.0)
@@ -109,8 +111,9 @@ svm_clf.fit(x_train, y_train)
 pred = svm_clf.predict(x_test)
 print(f"Accuracy Score: {accuracy_score(y_test, pred) * 100:.2f}%")
 
-#Decision Tree - accuracy
+# Decision Tree - accuracy  = 86.96%
 from sklearn.tree import DecisionTreeClassifier
+
 tree_clf = DecisionTreeClassifier(random_state=40)
 tree_clf.fit(x_train, y_train)
 
