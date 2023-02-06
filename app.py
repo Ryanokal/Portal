@@ -1,5 +1,8 @@
 import sqlite3
+import numpy as np
+import pandas as pd
 from flask import Flask, render_template, request, redirect
+from Prediction import predict
 
 app = Flask(__name__)
 
@@ -41,6 +44,12 @@ def search():
     c.close()
     conn.close()
     if result:
+        # Predict the result of the student here - either drop out or graduating - use database - array
+
+        result = predict(np.array([]))
+
+        # Using Progressive Bar
+
         return redirect("/dashboard?student_name=" + result[0])
     else:
         return redirect("/dashboard?student_name=No student found")
