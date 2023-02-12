@@ -2,7 +2,7 @@ import sqlite3
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request, redirect
-from Prediction import predict
+from Prediction import predict, get_data_from_database
 
 app = Flask(__name__)
 
@@ -39,20 +39,21 @@ def search():
     query = request.form['query']
     conn = sqlite3.connect('Students.db')
     c = conn.cursor()
-    c.execute("SELECT name FROM students WHERE name=?", (query,))
+    c.execute("SELECT * FROM students WHERE RegNo=?", (query,))
     result = c.fetchone()
+    print(c.fetchone())
     c.close()
     conn.close()
     if result:
-        # Predict the result of the student here - either drop out or graduating - use database - array
+        # Get Data from column with reference to the name of the student searching
+        data = get_data_from_database("Balance", query)
+        y_pred = predict(data)
+        print(y_pred)
 
-        result = predict(np.array([]))
-
-        # Using Progressive Bar
-
+        # Display Student
         return redirect("/dashboard?student_name=" + result[0])
     else:
-        return redirect("/dashboard?student_name=No student found")
+        return redirect("/dashboard?student_name = No student found")
 
 
 if __name__ == '__main__':
