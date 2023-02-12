@@ -49,6 +49,8 @@ def search():
         data = get_data_from_database("Balance", query)
         y_pred = predict(data)
         print(y_pred)
+
+        # Display Student
         return redirect("/dashboard?student_name=" + result[0])
     else:
         return redirect("/dashboard?student_name = No student found")
