@@ -3,6 +3,7 @@ import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+from sklearn.feature_selection import SelectKBest, f_classif
 
 # Input data files are available in the read-only "../input/" directory
 
@@ -42,6 +43,13 @@ data.drop(data.index[(data["Target"] == "Enrolled")], axis=0, inplace=True)
 
 sns.countplot(x="Target", data=data)
 data.loc[:, 'Target'].value_counts()
+
+# Feature Selection
+X, y = data.loc[:, data.columns != 'Target'], data.loc[:, 'Target']
+selector = SelectKBest(f_classif, k=10)
+selector.fit(X, y)
+X_new = selector.transform(X)
+print(f"Feature Selection : {X.columns[selector.get_support()]}")
 
 # KNN
 from sklearn.neighbors import KNeighborsClassifier
@@ -94,13 +102,15 @@ print("Best accuracy is {} with K = {}".format(np.max(test_accuracy), 1 + test_a
 
 # Logistic regression - accuracy = 91.83%
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score
 
 lr_clf = LogisticRegression(solver='liblinear')
 lr_clf.fit(x_train, y_train)
 
 pred = lr_clf.predict(x_test)
 print(f"Accuracy Score: {accuracy_score(y_test, pred) * 100:.2f}%")
+print(f"F1 Score: {f1_score(y_test, pred, average='macro'):.2f}")
+print(f"Recall: {recall_score(y_test, pred, average='macro'):.2f}")
 
 # Support Vector Machine (SVM)- accuracy  = 60.79%
 from sklearn.svm import SVC
