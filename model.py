@@ -80,7 +80,9 @@ neig = np.arange(1, 25)
 train_accuracy = []
 test_accuracy = []
 test_recall = []
+train_recall = []
 test_f1 = []
+train_f1 = []
 
 # Loop over different values of k
 for i, k in enumerate(neig):
@@ -93,13 +95,13 @@ for i, k in enumerate(neig):
     # test accuracy
     test_accuracy.append(knn.score(x_test, y_test))
     # train recall
-    test_recall.append(recall_score(y_train, knn.predict(x_train)))
+    train_recall.append(knn.score(x_train, y_train))
     # test recall
-    test_recall.append(recall_score(y_test, knn.predict(x_test)))
+    test_recall.append(knn.score(x_test, y_test))
     # train f1 score
-    test_f1.append(f1_score(y_train, knn.predict(x_train)))
+    train_f1.append(knn.score(x_train, y_train))
     # test f1 score
-    test_f1.append(f1_score(y_test, knn.predict(x_test)))
+    test_f1.append(knn.score(x_test, y_test))
 
 
 # Plot
@@ -107,17 +109,20 @@ plt.figure(figsize=[13, 8])
 plt.plot(neig, test_accuracy, label='Testing Accuracy')
 plt.plot(neig, train_accuracy, label='Training Accuracy')
 plt.plot(neig, test_f1, label='Testing F1 Score')
-plt.plot(neig, train_accuracy, label='Training Accuracy')
+plt.plot(neig, train_f1, label='Training F1 Score')
+plt.plot(neig, test_recall, label='Testing Recall')
 plt.legend()
 plt.title('-value VS Accuracy, Recall, and F1 Score')
+# plt.title('-value VS Accuracy')
 plt.xlabel('Number of Neighbors')
 plt.ylabel('Metric Score')
+# plt.ylabel('Accuracy')
 plt.xticks(neig)
 plt.savefig('graph.png')
 plt.show()
 print("Best accuracy is {} with K = {}".format(np.max(test_accuracy), 1 + test_accuracy.index(np.max(test_accuracy))))
-print("Best f1 score is {} with K = {}".format(np.max(test_f1)), 1 + test_accuracy.index(np.max(test_accuracy)))
-print("Best recall is {} with K = {}\n".format(np.max(test_recall), 1 + test_accuracy.index(np.max(test_accuracy))))
+print("Best f1 score is {} with K = {}".format(np.max(test_f1), 1 + test_f1.index(np.max(test_f1))))
+print("Best recall is {} with K = {}\n".format(np.max(test_recall), 1 + test_recall.index(np.max(test_recall))))
 
 # Logistic regression - accuracy = 91.83%
 from sklearn.linear_model import LogisticRegression
